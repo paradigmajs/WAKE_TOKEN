@@ -1,0 +1,24 @@
+{
+  "name": "wake-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:testnet:clean": "hardhat run scripts/deploy/00_clean_deployment.js --network sepolia",
+    "deploy:testnet:token": "hardhat run scripts/deploy/01_deploy_token.js --network sepolia",
+    "deploy:testnet:vaults": "hardhat run scripts/deploy/02_deploy_vaults.js --network sepolia",
+    "deploy:testnet:fund": "hardhat run scripts/deploy/03_fund_vaults.js --network sepolia",
+    "deploy:testnet:merkle": "hardhat run scripts/deploy/04_set_merkle_root.js --network sepolia",
+    "deploy:testnet:check": "hardhat run scripts/deploy/05_post_deploy_checks.js --network sepolia",
+    "deploy:testnet:verify": "hardhat run scripts/deploy/06_verify_all.js --network sepolia"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.15"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "dotenv": "^17.3.1"
+  }
+}
