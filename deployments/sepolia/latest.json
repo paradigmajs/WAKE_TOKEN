@@ -1,22 +1,21 @@
 {
   "network": "sepolia",
   "chainId": 11155111,
-  "updatedAt": "2026-03-07T11:49:46.941Z",
+  "updatedAt": "2026-03-07T11:29:07.064Z",
   "contracts": {
     "token": {
       "name": "WAKEToken",
-      "address": "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+      "address": "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
       "args": [
-        "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x84F1995827F35337A925727aCd8A25D0b54e1F52"
+        "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e"
       ]
     },
     "presalePrivateVault": {
       "name": "WakePresaleMerkleVesting",
-      "address": "0x0524B5BD57A76Ca932230882C1E2e0453Fd20C25",
+      "address": "0x69b0aAc84F9d6544dD5e7873CE20947314b4fa05",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
         1814400000,
         5184000,
         46656000,
@@ -25,19 +24,19 @@
     },
     "liquidityVault": {
       "name": "WakeLiquidityVault",
-      "address": "0x9410a562456991b298d0e044Ca9704033A922031",
+      "address": "0x102C3E741484bCcF01e4335D50a71E9a791232E4",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
         1845504000
       ]
     },
     "ecosystemVault": {
       "name": "WakeControlledEmissionVault",
-      "address": "0x949A2F2f70B58dc1c579Ce267Eb03CF37969b740",
+      "address": "0x0A10EF3F03A8532d2818E8dFCC0c28e404810862",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
         "252022001000000000000000000",
         1814400000,
         7776000,
@@ -47,10 +46,10 @@
     },
     "treasuryVault": {
       "name": "WakeControlledEmissionVault",
-      "address": "0xFED3908ABEE454D6Fe9d69AFbB56978C63aaAF62",
+      "address": "0x7fDbcd08E70349d1bd0C2558Ffd0Fb1C9FE99FBB",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
         "157513750000000000000000000",
         1814400000,
         15552000,
@@ -60,10 +59,10 @@
     },
     "userRewardsVault": {
       "name": "WakeControlledEmissionVault",
-      "address": "0x58567f2915ac249063BB30ddfCbbB4521376f7dB",
+      "address": "0xd3BB5d588921F2548eFc52f2dCc2EE2fB99DE9B1",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
         "126011000000000000000000000",
         1814400000,
         0,
@@ -73,10 +72,10 @@
     },
     "stakingVault": {
       "name": "WakeControlledEmissionVault",
-      "address": "0xE11743b07fF8Fc445e090e282dfE15e924ED4058",
+      "address": "0x2F3E3C0361ff3f4EB7b8225aE5F8Ce338046713d",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
         "126011000000000000000000000",
         1814400000,
         5184000,
@@ -86,10 +85,10 @@
     },
     "teamVault": {
       "name": "WakeBeneficiaryVestingVault",
-      "address": "0x0E6548D2fbAeebBD0F8E5Eb45806096E7B0c0Ac6",
+      "address": "0xad6Ec26c63d6deE345A32dcb998d0532615A2Fe0",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
         "0x52c52e02812b68401814a128454Df9254D3454dC",
         "189016500000000000000000000",
         1814400000,
@@ -100,10 +99,10 @@
     },
     "advisorsVault": {
       "name": "WakeBeneficiaryVestingVault",
-      "address": "0xa3EB4446Fce54A081465B4CF25e2467F98A1ff25",
+      "address": "0x19B4A551A2D7895369a96E6ad5dF8846609e452a",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
         "0x45bB1590dDa06a789577A425B6e286E5d6688411",
         "47254125000000000000000000",
         1814400000,
@@ -114,10 +113,10 @@
     },
     "marketingVault": {
       "name": "WakeControlledEmissionVault",
-      "address": "0xA8Cb5e4a9180f72A942b4aCaec18e5C65E1436A7",
+      "address": "0x8c5ee7663d9A1e679fFEAd7c574C8de30eFE1DB2",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6",
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6",
         "78756875000000000000000000",
         1814400000,
         0,
@@ -127,10 +126,10 @@
     },
     "reserveVault": {
       "name": "WakeCustodyVault",
-      "address": "0x0ceB1C81A4DDC2460e50D71fe643CB49Fae4f3F9",
+      "address": "0xFccbD400f2EbA36a3D35A9E58098973EC1dC4C74",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x18245F76E34974bb7150Fbb793C6D9bd2DA01AA6"
+        "0x95ee158CbA9792a7F60dC3EEA9025582f22A11e6"
       ]
     }
   },
@@ -208,89 +207,21 @@
     }
   },
   "tx": {
-    "tokenDeployTx": "0x331fee4d165ca26320bf4da5af05fc0b698cf1b9c272b2ef25a6b2635dd79273",
-    "presalePrivateVaultDeployTx": "0x7d4c0667a0db390cd67dd9d246f6708d562942ebd8b20812b836cc4eea81503c",
-    "liquidityVaultDeployTx": "0x838743c6fa8aaeb0a56b2f4b26d48f76f57992283d29ae6aa352a13eab8eaaf5",
-    "ecosystemVaultDeployTx": "0xbbe53cd2279211f235ffbd0ed83a3ceb1619c892f3475357a2d322e84f04614b",
-    "treasuryVaultDeployTx": "0x3a04a9381f6a048231ef779d94cea5c4426cf25dd0762826b8d05503b810a71d",
-    "userRewardsVaultDeployTx": "0x32628347679cc281491a4589eb17718c50dfbcf302f59a6a13b257e3ad76770f",
-    "stakingVaultDeployTx": "0x21c8aec98f61802b263bf634083e0fb7727a5f8d5c3cb3aa8acc595f5934e629",
-    "teamVaultDeployTx": "0xaffb83e5d23d3e1ab22ed59d3659fd8407f69510d981f9a2bd64b7f5347398d9",
-    "advisorsVaultDeployTx": "0x36790264d9469b01e50b8984b2301da7337b902f500a72821d2a35f3fedec012",
-    "marketingVaultDeployTx": "0xfa9a2a6581631d32d320fdab9f09f7d222b4e6d432b62de36228cb1a11f6a773",
-    "reserveVaultDeployTx": "0x15f8c9b778a14d72286e314c9223e0049464906245e16ad8db90f3252ec0a57e",
-    "presalePrivateVaultFundingTx": "0x0cecd9b7c242ef0d33b1a8c23abc46e6e306f4bd8f08fb70e36e4e8f84a73000",
-    "liquidityVaultFundingTx": "0x8adea845087b5713862b1353a9df443b919866238d86dc904c63314138a0bcb2",
-    "ecosystemVaultFundingTx": "0x50f927b2dfb611a25217e3bfb945fd3b10b7692e4e28b91ec87923dd8de19ae8",
-    "treasuryVaultFundingTx": "0x2ffd7fce5098769190b770e00350e820fcb74bac3a71ae5e28e0c132bad5aae3",
-    "userRewardsVaultFundingTx": "0xcc716d925ea9b5a8b81d0e2df137c70ca906110ffbce9845713643b49c1e3a60",
-    "stakingVaultFundingTx": "0x122b2e9589f00f1719a05c15803f0eddad2e78aa9fb1a6de540ab5094924e8e7",
-    "teamVaultFundingTx": "0xa9c79a448c73222a502bf23555d66c0255f71c33addeed8ad6aa3c05946202a3",
-    "advisorsVaultFundingTx": "0x8db98bc928fe56a8a3c78a20464c511ec6ea8b17555b82c61b88cd4b1ff4d893",
-    "marketingVaultFundingTx": "0x7bbbe02782389b15bf931dbbfd912cc7cf638d8c16156f473b53d061643f93b7",
-    "reserveVaultFundingTx": "0xcfc4c547cf861922de653467d6c4c8434b17e24a5d26dc81b9efb884b58cf288"
+    "tokenDeployTx": "0x469031e3540dd8ccb1304067c67014c4e5cf7e5a2c9550f76d2aade3c59cacaf",
+    "presalePrivateVaultDeployTx": "0xe5e33e595c4d1f11f57890cabc0f3ad7e6af6c05b151829e539119b749d6f33f",
+    "liquidityVaultDeployTx": "0xceef1ab4bf279fbd120f0fab37f0f2cf7c7f850ed877604878932c3dee967db4",
+    "ecosystemVaultDeployTx": "0x000a79374c0e384e500bbf76b8b46f4d6c4ed0a25650f78eba12580c0b91626a",
+    "treasuryVaultDeployTx": "0xb9fa51130b34236380295c7102270354039d2333421d0bb660f0018cf3c5956f",
+    "userRewardsVaultDeployTx": "0x63acdcfe67449b93c03362e0b5697c11c7624f1817417a4881f660c09c0fdc9e",
+    "stakingVaultDeployTx": "0xc661745bfe66b447d4cec79ff09719bbfdcbaeb01354b56e410d8ec37fb6d823",
+    "teamVaultDeployTx": "0x4843271bfc7b1fbb91d446e6f7c8c89f8baa5ff1946553d9e4ad05f166123a9f",
+    "advisorsVaultDeployTx": "0xd3b8aff19c6d48a0c90c2803d915a74a598c6e01b3b906996e972e7f4391bc7b",
+    "marketingVaultDeployTx": "0x6489e3e267c73d49837ef8bf0d0c2ceb1d688ae5285550a08439d1ae253e17c4",
+    "reserveVaultDeployTx": "0xc0e90014ab594129b8f7d66fd55fec7a8ab3c5520c146b9df4de75467471e078"
   },
-  "funded": {
-    "presalePrivateVault": {
-      "to": "0x0524B5BD57A76Ca932230882C1E2e0453Fd20C25",
-      "amount": "393784376000000000000000000",
-      "txHash": "0x0cecd9b7c242ef0d33b1a8c23abc46e6e306f4bd8f08fb70e36e4e8f84a73000"
-    },
-    "liquidityVault": {
-      "to": "0x9410a562456991b298d0e044Ca9704033A922031",
-      "amount": "157513750000000000000000000",
-      "txHash": "0x8adea845087b5713862b1353a9df443b919866238d86dc904c63314138a0bcb2"
-    },
-    "ecosystemVault": {
-      "to": "0x949A2F2f70B58dc1c579Ce267Eb03CF37969b740",
-      "amount": "252022001000000000000000000",
-      "txHash": "0x50f927b2dfb611a25217e3bfb945fd3b10b7692e4e28b91ec87923dd8de19ae8"
-    },
-    "treasuryVault": {
-      "to": "0xFED3908ABEE454D6Fe9d69AFbB56978C63aaAF62",
-      "amount": "157513750000000000000000000",
-      "txHash": "0x2ffd7fce5098769190b770e00350e820fcb74bac3a71ae5e28e0c132bad5aae3"
-    },
-    "userRewardsVault": {
-      "to": "0x58567f2915ac249063BB30ddfCbbB4521376f7dB",
-      "amount": "126011000000000000000000000",
-      "txHash": "0xcc716d925ea9b5a8b81d0e2df137c70ca906110ffbce9845713643b49c1e3a60"
-    },
-    "stakingVault": {
-      "to": "0xE11743b07fF8Fc445e090e282dfE15e924ED4058",
-      "amount": "126011000000000000000000000",
-      "txHash": "0x122b2e9589f00f1719a05c15803f0eddad2e78aa9fb1a6de540ab5094924e8e7"
-    },
-    "teamVault": {
-      "to": "0x0E6548D2fbAeebBD0F8E5Eb45806096E7B0c0Ac6",
-      "amount": "189016500000000000000000000",
-      "txHash": "0xa9c79a448c73222a502bf23555d66c0255f71c33addeed8ad6aa3c05946202a3"
-    },
-    "advisorsVault": {
-      "to": "0xa3EB4446Fce54A081465B4CF25e2467F98A1ff25",
-      "amount": "47254125000000000000000000",
-      "txHash": "0x8db98bc928fe56a8a3c78a20464c511ec6ea8b17555b82c61b88cd4b1ff4d893"
-    },
-    "marketingVault": {
-      "to": "0xA8Cb5e4a9180f72A942b4aCaec18e5C65E1436A7",
-      "amount": "78756875000000000000000000",
-      "txHash": "0x7bbbe02782389b15bf931dbbfd912cc7cf638d8c16156f473b53d061643f93b7"
-    },
-    "reserveVault": {
-      "to": "0x0ceB1C81A4DDC2460e50D71fe643CB49Fae4f3F9",
-      "amount": "47254128000000000000000000",
-      "txHash": "0xcfc4c547cf861922de653467d6c4c8434b17e24a5d26dc81b9efb884b58cf288"
-    }
-  },
+  "funded": {},
   "meta": {
     "deployer": "0x84F1995827F35337A925727aCd8A25D0b54e1F52",
-    "deployerBalanceBefore": "49922526564090515",
-    "tokenOwner": "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-    "tokenInitialHolder": "0x84F1995827F35337A925727aCd8A25D0b54e1F52"
-  },
-  "checks": {
-    "executedAt": "2026-03-07T11:49:46.940Z",
-    "ok": true,
-    "safeBalance": "0"
+    "deployerBalanceBefore": "50000000000000000"
   }
 }
