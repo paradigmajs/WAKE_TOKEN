@@ -1,80 +1,55 @@
 # WAKE Contracts
 
-Audit-ready репозиторий для WAKE token + vault architecture.
+Audit-oriented WAKE repo aligned with the current Litepaper / Whitepaper token logic.
 
-## Состав проекта
+## Contracts
 
-- `WAKEToken.sol` — ERC-20 WAKE, fixed supply `1,575,137,505 * 10^18`
-- `WakePresaleMerkleVesting.sol` — Presale / Private Round, Merkle claim + vesting
-- `WakeBeneficiaryVestingVault.sol` — вестинг для одного фиксированного получателя
-- `WakeControlledEmissionVault.sol` — emission / controlled release под Safe
-- `WakeLiquidityVault.sol` — vault для ликвидности с lock по времени
-- `WakeCustodyVault.sol` — custody vault для reserve
+- `WAKEToken.sol` — fixed-supply ERC-20 (`1,575,137,505 WAKE`)
+- `WakePresaleMerkleVesting.sol` — Merkle claim + vesting + `claimAndStake`
+- `WakeBeneficiaryVestingVault.sol` — beneficiary vesting vault for team / advisors
+- `WakeControlledEmissionVault.sol` — discretionary emission vault for treasury / ecosystem / marketing
+- `WakeBoundEmissionVault.sol` — controller-bound emission vault for staking / rewards
+- `WakeStaking.sol` — retail staking v1 with cooldown unstake and accumulator rewards
+- `WakeTimelockVault.sol` — 24-month reserve timelock vault
+- `WakeLiquidityVault.sol` — legacy helper, no longer part of canonical mainnet path
+- `WakeCustodyVault.sol` — legacy helper, superseded by `WakeTimelockVault`
 
-## Ключевые фиксы для аудита
+## What changed versus the old repo state
 
-1. **Reserve считается автоматически как остаток от total supply**.
-   - Больше нет ручного риска, что сумма allocation не сойдется.
-   - Формула в `scripts/deploy/config.js`:
-     - `reserve = totalSupply - sum(all non-reserve allocations)`
+1. Added standalone staking.
+2. Fixed cliff math across presale / vesting / emissions.
+3. Split discretionary emission vaults from bound staking/rewards emission vaults.
+4. Replaced reserve custody model with real timelock reserve.
+5. Removed token-timelock liquidity vault from the canonical mainnet path.
+6. Synced Advisors / Strategic Reserve allocations with public docs.
+7. Prepared timelock ownership path for staking-related contracts.
 
-2. **Rewards / staking описаны корректно**.
-   - В репозитории есть vault-слой для эмиссии (`WakeControlledEmissionVault`).
-   - Отдельный staking-contract в этот audit scope не входит.
-   - Это зафиксировано в `docs/REWARDS_AND_STAKING.md`.
+## Canonical architecture
 
-3. **Token ownership и initial holder разделены**.
-   - Конструктор токена принимает `initialOwner` и `initialHolder` отдельно.
-   - Для текущей конфигурации оба указывают на Safe, но архитектура теперь прозрачная для аудита.
+```text
+WAKEToken (fixed supply)
+├── WakePresaleMerkleVesting
+│   ├── claim()
+│   ├── claimTo()
+│   └── claimAndStake()
+├── WakeBoundEmissionVault (staking bucket)
+│   └── WakeStaking
+├── WakeBoundEmissionVault (user rewards bucket)
+├── WakeControlledEmissionVault (treasury)
+├── WakeControlledEmissionVault (ecosystem)
+├── WakeControlledEmissionVault (marketing)
+├── WakeBeneficiaryVestingVault (team)
+├── WakeBeneficiaryVestingVault (advisors)
+└── WakeTimelockVault (reserve)
+```
 
-## Зафиксированные параметры
+## Mainnet logic notes
 
-- Token name: `WAKE`
-- Token symbol: `WAKE`
-- Total supply: `1,575,137,505`
-- TGE timestamp: `1814400000` (`2027-07-01 00:00:00 UTC`)
-- Safe threshold: `2/3`
+- **Liquidity**: liquidity tokens stay on Safe for provisioning; the LP position should be locked in an external audited locker. This repo no longer pretends that a token timelock equals an LP lock.
+- **Staking v1**: non-slashing retail staking only. Future sequencer/operator bonds should live in a separate module.
+- **Governance**: staking-sensitive contracts are intended to sit behind a timelock path, not instant Safe admin.
 
-## Tokenomics / allocation logic
-
-Не-reserve allocation фиксируется явно, а `reserve` считается как остаток.
-
-### Explicit allocations
-
-- Presale / Private Round — `393,784,376 WAKE`
-- Liquidity — `157,513,750 WAKE`
-- Ecosystem Incentives — `252,022,001 WAKE`
-- Treasury — `157,513,750 WAKE`
-- User Rewards — `126,011,000 WAKE`
-- Staking Emissions — `126,011,000 WAKE`
-- Team — `189,016,500 WAKE`
-- Advisors — `47,254,125 WAKE`
-- Marketing / Growth — `78,756,875 WAKE`
-- Reserve — **автоматический remainder**
-
-Для текущих цифр remainder равен `47,254,128 WAKE`.
-
-## Rewards / staking
-
-В этой версии репозитория:
-
-- `userRewards` и `stakingEmissions` реализованы как **funded emission vaults**;
-- полноценный staking-протокол и reward-distributor **не входят в текущий audit scope**;
-- будущий flow: `vault -> staking/rewards contracts -> users`.
-
-## Presale Merkle
-
-На ончейне хранится только `merkleRoot`.
-
-Flow:
-1. деплой `WakePresaleMerkleVesting`
-2. перевести в него allocation Presale / Private
-3. собрать Merkle tree оффчейн
-4. вызвать `setMerkleRoot(root)` через Safe
-5. вызвать `freezeRoot()` через Safe
-6. пользователи claim через `claim(totalAllocation, proof)`
-
-## Deploy pipeline
+## Deployment flow
 
 - `scripts/deploy/00_clean_deployment.js`
 - `scripts/deploy/01_deploy_token.js`
@@ -84,7 +59,7 @@ Flow:
 - `scripts/deploy/05_post_deploy_checks.js`
 - `scripts/deploy/06_verify_all.js`
 
-## Запуск
+## Local commands
 
 ```bash
 npm install
@@ -92,4 +67,20 @@ npx hardhat compile
 npm test
 ```
 
-Для testnet-деплоя смотри `docs/DEPLOYMENT.md` и `docs/TESTNET_DEPLOY.md`.
+## Important note
+
+This environment did not include installed npm dependencies, so the updated repo was prepared structurally but should be compiled and test-run on your machine with `npm install` before deployment or audit submission.
+
+```rm -rf artifacts cache
+npx hardhat compile
+npm test```
+
+```npm run deploy:testnet:clean
+npm run deploy:testnet:token
+npm run deploy:testnet:vaults
+npm run deploy:testnet:fund
+npm run deploy:testnet:check```
+
+
+
+

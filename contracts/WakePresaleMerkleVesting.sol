@@ -5,6 +5,8 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {MerkleProof} from "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {IWakeStaking} from "./interfaces/IWakeStaking.sol";
+import {WakeVestingMath} from "./WakeVestingMath.sol";
 
 contract WakePresaleMerkleVesting is Ownable {
     using SafeERC20 for IERC20;
@@ -14,6 +16,8 @@ contract WakePresaleMerkleVesting is Ownable {
     error RootFrozen();
     error InvalidProof();
     error NothingToClaim();
+    error InvalidSchedule();
+    error InvalidStakingAddress();
 
     IERC20 public immutable token;
     uint64 public immutable tgeTimestamp;
@@ -29,6 +33,7 @@ contract WakePresaleMerkleVesting is Ownable {
     event MerkleRootUpdated(bytes32 indexed newRoot);
     event MerkleRootFrozen();
     event Claimed(address indexed account, uint256 totalAllocation, uint256 amount);
+    event ClaimedAndStaked(address indexed account, address indexed staking, uint256 totalAllocation, uint256 amount);
 
     constructor(
         address owner_,
@@ -39,6 +44,7 @@ contract WakePresaleMerkleVesting is Ownable {
         uint16 initialUnlockBps_
     ) Ownable(owner_) {
         if (owner_ == address(0) || address(token_) == address(0)) revert InvalidAddress();
+        if (initialUnlockBps_ > 10_000 || cliffDuration_ > vestingDuration_) revert InvalidSchedule();
         token = token_;
         tgeTimestamp = tgeTimestamp_;
         cliffDuration = cliffDuration_;
@@ -60,25 +66,14 @@ contract WakePresaleMerkleVesting is Ownable {
     }
 
     function vestedAmount(uint256 totalAllocation, uint256 timestamp) public view returns (uint256) {
-        if (timestamp < tgeTimestamp) return 0;
-
-        uint256 initial = (totalAllocation * initialUnlockBps) / 10_000;
-        uint256 remaining = totalAllocation - initial;
-
-        if (timestamp < tgeTimestamp + cliffDuration) {
-            return initial;
-        }
-
-        uint256 elapsed = timestamp - tgeTimestamp;
-        uint256 monthsElapsed = elapsed / 30 days;
-        uint256 totalMonths = vestingDuration / 30 days;
-
-        if (totalMonths == 0 || monthsElapsed >= totalMonths) {
-            return totalAllocation;
-        }
-
-        uint256 vestedRemaining = (remaining * monthsElapsed) / totalMonths;
-        return initial + vestedRemaining;
+        return WakeVestingMath.vestedAmount(
+            totalAllocation,
+            tgeTimestamp,
+            cliffDuration,
+            vestingDuration,
+            initialUnlockBps,
+            timestamp
+        );
     }
 
     function claimable(address account, uint256 totalAllocation, bytes32[] calldata proof) public view returns (uint256) {
@@ -90,15 +85,34 @@ contract WakePresaleMerkleVesting is Ownable {
     }
 
     function claim(uint256 totalAllocation, bytes32[] calldata proof) external returns (uint256 amount) {
-        amount = claimable(msg.sender, totalAllocation, proof);
-        if (amount == 0) revert NothingToClaim();
-        claimed[msg.sender] += amount;
-        token.safeTransfer(msg.sender, amount);
+        amount = _claim(msg.sender, msg.sender, totalAllocation, proof);
         emit Claimed(msg.sender, totalAllocation, amount);
+    }
+
+    function claimTo(address beneficiary, uint256 totalAllocation, bytes32[] calldata proof) external returns (uint256 amount) {
+        if (beneficiary == address(0)) revert InvalidAddress();
+        amount = _claim(msg.sender, beneficiary, totalAllocation, proof);
+        emit Claimed(beneficiary, totalAllocation, amount);
+    }
+
+    function claimAndStake(address staking, uint256 totalAllocation, bytes32[] calldata proof) external returns (uint256 amount) {
+        if (staking == address(0)) revert InvalidStakingAddress();
+        amount = _claim(msg.sender, address(this), totalAllocation, proof);
+        token.forceApprove(staking, 0);
+        token.forceApprove(staking, amount);
+        IWakeStaking(staking).stakeFor(msg.sender, amount);
+        emit ClaimedAndStaked(msg.sender, staking, totalAllocation, amount);
     }
 
     function leaf(address account, uint256 totalAllocation) public pure returns (bytes32) {
         return keccak256(bytes.concat(keccak256(abi.encode(account, totalAllocation))));
+    }
+
+    function _claim(address account, address beneficiary, uint256 totalAllocation, bytes32[] calldata proof) internal returns (uint256 amount) {
+        amount = claimable(account, totalAllocation, proof);
+        if (amount == 0) revert NothingToClaim();
+        claimed[account] += amount;
+        token.safeTransfer(beneficiary, amount);
     }
 
     function _verify(address account, uint256 totalAllocation, bytes32[] calldata proof) internal view {

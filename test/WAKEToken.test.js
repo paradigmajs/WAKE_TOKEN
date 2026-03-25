@@ -6,7 +6,7 @@ describe("WAKEToken", function () {
   async function deployFixture() {
     const [owner, other] = await ethers.getSigners();
     const Token = await ethers.getContractFactory("WAKEToken");
-    const token = await Token.deploy(owner.address, owner.address);
+    const token = await Token.deploy(owner.address);
     await token.waitForDeployment();
     return { token, owner, other };
   }
@@ -19,14 +19,13 @@ describe("WAKEToken", function () {
     expect(await token.symbol()).to.equal("WAKE");
     expect(await token.totalSupply()).to.equal(expectedSupply);
     expect(await token.balanceOf(owner.address)).to.equal(expectedSupply);
-    expect(await token.owner()).to.equal(owner.address);
   });
 
   it("reverts with zero initial holder", async function () {
     const Token = await ethers.getContractFactory("WAKEToken");
-   
+
     await expect(
-      Token.deploy(ethers.ZeroAddress, ethers.ZeroAddress)
-    ).to.be.reverted;
+      Token.deploy(ethers.ZeroAddress)
+    ).to.be.revertedWithCustomError(Token, "InvalidInitialHolder");
   });
 });

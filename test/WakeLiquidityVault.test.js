@@ -6,7 +6,7 @@ describe("WakeLiquidityVault", function () {
   async function deployFixture() {
     const [owner, recipient, outsider] = await ethers.getSigners();
     const Token = await ethers.getContractFactory("WAKEToken");
-    const token = await Token.deploy(owner.address, owner.address);
+    const token = await Token.deploy(owner.address);
     await token.waitForDeployment();
 
     const latest = await time.latest();

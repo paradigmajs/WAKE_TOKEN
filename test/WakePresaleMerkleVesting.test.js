@@ -1,9 +1,14 @@
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
-const { loadFixture, time } = require("@nomicfoundation/hardhat-toolbox/network-helpers");
+const { expect } = require('chai');
+const { ethers } = require('hardhat');
+const { loadFixture, time } = require('@nomicfoundation/hardhat-toolbox/network-helpers');
 
 function hashLeaf(account, amount) {
-  return ethers.keccak256(ethers.solidityPacked(["bytes32"], [ethers.keccak256(ethers.AbiCoder.defaultAbiCoder().encode(["address", "uint256"], [account, amount]))]));
+  return ethers.keccak256(
+    ethers.solidityPacked(
+      ['bytes32'],
+      [ethers.keccak256(ethers.AbiCoder.defaultAbiCoder().encode(['address', 'uint256'], [account, amount]))],
+    ),
+  );
 }
 
 function sortPair(a, b) {
@@ -16,7 +21,7 @@ function hashPair(a, b) {
 }
 
 function buildMerkle(leaves) {
-  if (leaves.length === 0) throw new Error("empty leaves");
+  if (leaves.length === 0) throw new Error('empty leaves');
   let layers = [leaves.slice()];
   while (layers[layers.length - 1].length > 1) {
     const prev = layers[layers.length - 1];
@@ -33,7 +38,7 @@ function buildMerkle(leaves) {
     getProof(leaf) {
       const proof = [];
       let index = layers[0].indexOf(leaf);
-      if (index === -1) throw new Error("leaf not found");
+      if (index === -1) throw new Error('leaf not found');
       for (let level = 0; level < layers.length - 1; level++) {
         const layer = layers[level];
         const pairIndex = index ^ 1;
@@ -46,11 +51,11 @@ function buildMerkle(leaves) {
   };
 }
 
-describe("WakePresaleMerkleVesting", function () {
+describe('WakePresaleMerkleVesting', function () {
   async function deployFixture() {
     const [owner, alice, bob, outsider] = await ethers.getSigners();
-    const Token = await ethers.getContractFactory("WAKEToken");
-    const token = await Token.deploy(owner.address, owner.address);
+    const Token = await ethers.getContractFactory('WAKEToken');
+    const token = await Token.deploy(owner.address);
     await token.waitForDeployment();
 
     const latest = await time.latest();
@@ -59,19 +64,22 @@ describe("WakePresaleMerkleVesting", function () {
     const vesting = 540 * 24 * 60 * 60;
     const initialUnlockBps = 800;
 
-    const Presale = await ethers.getContractFactory("WakePresaleMerkleVesting");
-    const presale = await Presale.deploy(
-      owner.address,
-      await token.getAddress(),
-      tge,
-      cliff,
-      vesting,
-      initialUnlockBps
-    );
+    const Presale = await ethers.getContractFactory('WakePresaleMerkleVesting');
+    const presale = await Presale.deploy(owner.address, await token.getAddress(), tge, cliff, vesting, initialUnlockBps);
     await presale.waitForDeployment();
 
-    const aliceAllocation = ethers.parseEther("1000");
-    const bobAllocation = ethers.parseEther("2000");
+    const BoundVault = await ethers.getContractFactory('WakeBoundEmissionVault');
+    const emissionVault = await BoundVault.deploy(owner.address, await token.getAddress(), ethers.parseEther('3400'), tge, cliff, 1080 * 24 * 60 * 60, 0, owner.address);
+    await emissionVault.waitForDeployment();
+    await token.transfer(await emissionVault.getAddress(), ethers.parseEther('3400'));
+
+    const Staking = await ethers.getContractFactory('WakeStaking');
+    const staking = await Staking.deploy(owner.address, await token.getAddress(), await emissionVault.getAddress(), 7 * 24 * 60 * 60);
+    await staking.waitForDeployment();
+    await emissionVault.setController(await staking.getAddress());
+
+    const aliceAllocation = ethers.parseEther('1000');
+    const bobAllocation = ethers.parseEther('2000');
 
     const aliceLeaf = hashLeaf(alice.address, aliceAllocation);
     const bobLeaf = hashLeaf(bob.address, bobAllocation);
@@ -83,6 +91,7 @@ describe("WakePresaleMerkleVesting", function () {
     return {
       token,
       presale,
+      staking,
       owner,
       alice,
       bob,
@@ -97,68 +106,67 @@ describe("WakePresaleMerkleVesting", function () {
     };
   }
 
-  it("owner can set and freeze merkle root", async function () {
+  it('owner can set and freeze merkle root', async function () {
     const { presale } = await loadFixture(deployFixture);
     const currentRoot = await presale.merkleRoot();
     expect(currentRoot).to.not.equal(ethers.ZeroHash);
 
-    await expect(presale.freezeRoot()).to.emit(presale, "MerkleRootFrozen");
-    await expect(presale.setMerkleRoot(currentRoot)).to.be.revertedWithCustomError(presale, "RootFrozen");
+    await expect(presale.freezeRoot()).to.emit(presale, 'MerkleRootFrozen');
+    await expect(presale.setMerkleRoot(currentRoot)).to.be.revertedWithCustomError(presale, 'RootFrozen');
   });
 
-  it("rejects invalid proof", async function () {
+  it('rejects invalid proof', async function () {
     const { presale, outsider, aliceAllocation, aliceProof } = await loadFixture(deployFixture);
     await expect(presale.connect(outsider).claimable(outsider.address, aliceAllocation, aliceProof)).to.be.revertedWithCustomError(
       presale,
-      "InvalidProof"
+      'InvalidProof',
     );
   });
 
-  it("allows initial claim at TGE and prevents double-claiming same tranche", async function () {
+  it('allows initial claim at TGE and prevents double-claiming same tranche', async function () {
     const { token, presale, alice, tge, aliceAllocation, aliceProof } = await loadFixture(deployFixture);
     const initial = (aliceAllocation * 800n) / 10000n;
 
     await time.increaseTo(tge);
     expect(await presale.claimable(alice.address, aliceAllocation, aliceProof)).to.equal(initial);
-    await expect(presale.connect(alice).claim(aliceAllocation, aliceProof)).to.changeTokenBalances(
-      token,
-      [presale, alice],
-      [-initial, initial]
-    );
+    await expect(presale.connect(alice).claim(aliceAllocation, aliceProof)).to.changeTokenBalances(token, [presale, alice], [-initial, initial]);
 
     expect(await presale.claimed(alice.address)).to.equal(initial);
-    await expect(presale.connect(alice).claim(aliceAllocation, aliceProof)).to.be.revertedWithCustomError(
-      presale,
-      "NothingToClaim"
-    );
+    await expect(presale.connect(alice).claim(aliceAllocation, aliceProof)).to.be.revertedWithCustomError(presale, 'NothingToClaim');
   });
 
-  it("unlocks monthly after cliff and reaches full allocation at end", async function () {
-    const { token, presale, bob, tge, cliff, vesting, bobAllocation, bobProof } = await loadFixture(deployFixture);
+  it('keeps vesting flat during cliff and then releases monthly inside the remaining window', async function () {
+    const { presale, bob, tge, cliff, vesting, bobAllocation, bobProof } = await loadFixture(deployFixture);
     const initial = (bobAllocation * 800n) / 10000n;
     const remaining = bobAllocation - initial;
-    const totalMonths = BigInt(Math.floor(vesting / (30 * 24 * 60 * 60)));
+    const postCliffMonths = BigInt((vesting - cliff) / (30 * 24 * 60 * 60));
 
     await time.increaseTo(tge);
     await presale.connect(bob).claim(bobAllocation, bobProof);
 
-    await time.increaseTo(tge + cliff + 30 * 24 * 60 * 60);
-    const expectedVested = initial + (remaining * 3n) / totalMonths;
-    const claimable = expectedVested - initial;
-    await expect(presale.connect(bob).claim(bobAllocation, bobProof)).to.changeTokenBalances(
-      token,
-      [presale, bob],
-      [-claimable, claimable]
-    );
+    await time.increaseTo(tge + cliff - 1);
+    expect(await presale.claimable(bob.address, bobAllocation, bobProof)).to.equal(0n);
 
-    await time.increaseTo(tge + vesting + 1);
-    const alreadyClaimed = await presale.claimed(bob.address);
-    const finalClaim = bobAllocation - alreadyClaimed;
-    await expect(presale.connect(bob).claim(bobAllocation, bobProof)).to.changeTokenBalances(
-      token,
-      [presale, bob],
-      [-finalClaim, finalClaim]
-    );
-    expect(await presale.claimed(bob.address)).to.equal(bobAllocation);
+    await time.increaseTo(tge + cliff);
+    const firstMonthlyRelease = remaining / postCliffMonths;
+    expect(await presale.claimable(bob.address, bobAllocation, bobProof)).to.equal(firstMonthlyRelease);
+
+    await time.increaseTo(tge + cliff + 30 * 24 * 60 * 60);
+    const secondStepTotal = (remaining * 2n) / postCliffMonths;
+    expect(await presale.claimable(bob.address, bobAllocation, bobProof)).to.equal(secondStepTotal);
+  });
+
+  it('supports claimAndStake without routing tokens through the user wallet', async function () {
+    const { token, presale, staking, alice, tge, aliceAllocation, aliceProof } = await loadFixture(deployFixture);
+    const initial = (aliceAllocation * 800n) / 10000n;
+
+    await time.increaseTo(tge);
+    await expect(presale.connect(alice).claimAndStake(await staking.getAddress(), aliceAllocation, aliceProof))
+      .to.emit(presale, 'ClaimedAndStaked')
+      .withArgs(alice.address, await staking.getAddress(), aliceAllocation, initial);
+
+    expect(await staking.effectiveStakeOf(alice.address)).to.equal(initial);
+    expect(await token.balanceOf(alice.address)).to.equal(0n);
+    expect(await presale.claimed(alice.address)).to.equal(initial);
   });
 });

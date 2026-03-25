@@ -1,12 +1,13 @@
 const { ethers } = require('hardhat');
-require("dotenv").config({ path: ".env.testnet" });
+require('dotenv').config({ path: '.env.testnet' });
 
 const E18 = 10n ** 18n;
 const toWei = (value) => (BigInt(value) * E18).toString();
 const days = (value) => value * 24 * 60 * 60;
 
 const TOTAL_SUPPLY = 1575137505n;
-const TGE_TIMESTAMP = 1814400000; // 2027-07-01 00:00:00 UTC
+const DEFAULT_TGE_TIMESTAMP = 1814400000; // 2027-07-01 00:00:00 UTC
+const tgeTimestamp = Number(process.env.TGE_TIMESTAMP || DEFAULT_TGE_TIMESTAMP);
 
 const allocations = {
   presalePrivate: toWei(393784376n),
@@ -16,9 +17,9 @@ const allocations = {
   userRewards: toWei(126011000n),
   stakingEmissions: toWei(126011000n),
   team: toWei(189016500n),
-  advisors: toWei(47254125n),
   marketingGrowth: toWei(78756875n),
-  reserve: toWei(47254128n),
+  advisors: toWei(47254128n),
+  reserve: toWei(47254125n),
 };
 
 const totalAllocated = Object.values(allocations).reduce((acc, value) => acc + BigInt(value), 0n);
@@ -34,7 +35,7 @@ const testnetConfig = {
     symbol: 'WAKE',
     totalSupply: (TOTAL_SUPPLY * E18).toString(),
   },
-  tgeTimestamp: TGE_TIMESTAMP,
+  tgeTimestamp,
   safe: {
     address: process.env.SAFE_ADDRESS || '',
     owners: [
@@ -43,6 +44,10 @@ const testnetConfig = {
       '0x9F8dB038aC51fA1e8cAAC0Bc211Cb38E2D283E85',
     ],
     threshold: 2,
+  },
+  timelock: {
+    minDelay: Number(process.env.TIMELOCK_MIN_DELAY || days(2)),
+    executors: process.env.TIMELOCK_EXECUTOR ? [process.env.TIMELOCK_EXECUTOR] : [],
   },
   beneficiaries: {
     team: process.env.TEAM_BENEFICIARY || '',
@@ -54,9 +59,6 @@ const testnetConfig = {
       cliffDuration: days(60),
       vestingDuration: days(540),
       initialUnlockBps: 800,
-    },
-    liquidity: {
-      unlockTimestamp: TGE_TIMESTAMP + days(360),
     },
     ecosystemIncentives: {
       cliffDuration: days(90),
@@ -93,6 +95,22 @@ const testnetConfig = {
       vestingDuration: days(360),
       initialUnlockBps: 1000,
     },
+    reserve: {
+      unlockTimestamp: tgeTimestamp + days(720),
+    },
+  },
+  staking: {
+    rewardStartOffset: days(60),
+    rewardWindow: days(1080),
+    epochLength: days(30),
+    unbondingPeriod: days(7),
+    retailSlashing: false,
+  },
+  liquidity: {
+    mode: 'external-lp-lock',
+    lpLockRequired: true,
+    lpLockerAddress: process.env.LP_LOCKER_ADDRESS || '',
+    lpProvisionReceiver: process.env.LP_PROVISION_RECEIVER || '',
   },
 };
 
@@ -106,6 +124,15 @@ function getRequiredAddresses() {
   }
   if (!testnetConfig.beneficiaries.advisors || !ethers.isAddress(testnetConfig.beneficiaries.advisors)) {
     missing.push('ADVISORS_BENEFICIARY');
+  }
+  if (testnetConfig.timelock.executors.some((address) => !ethers.isAddress(address))) {
+    missing.push('TIMELOCK_EXECUTOR');
+  }
+  if (testnetConfig.liquidity.lpLockerAddress && !ethers.isAddress(testnetConfig.liquidity.lpLockerAddress)) {
+    missing.push('LP_LOCKER_ADDRESS');
+  }
+  if (testnetConfig.liquidity.lpProvisionReceiver && !ethers.isAddress(testnetConfig.liquidity.lpProvisionReceiver)) {
+    missing.push('LP_PROVISION_RECEIVER');
   }
   return missing;
 }

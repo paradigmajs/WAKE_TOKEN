@@ -16,10 +16,15 @@ async function main() {
   const deployerAddress = await deployer.getAddress();
   saveMeta('deployer', deployerAddress);
   saveMeta('deployerBalanceBefore', (await ethers.provider.getBalance(deployerAddress)).toString());
-  saveMeta('tokenOwner', testnetConfig.safe.address);
-  saveMeta('tokenInitialHolder', deployerAddress);
 
-  await deployContract('WAKEToken', [testnetConfig.safe.address, deployerAddress], 'token');
+  const tokenInitialHolder = process.env.TOKEN_INITIAL_HOLDER && ethers.isAddress(process.env.TOKEN_INITIAL_HOLDER)
+    ? process.env.TOKEN_INITIAL_HOLDER
+    : deployerAddress;
+
+  saveMeta('tokenAdminSurface', 'none');
+  saveMeta('tokenInitialHolder', tokenInitialHolder);
+
+  await deployContract('WAKEToken', [tokenInitialHolder], 'token');
 }
 
 main().catch((error) => {

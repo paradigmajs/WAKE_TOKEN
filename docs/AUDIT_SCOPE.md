@@ -6,20 +6,22 @@
 - `contracts/WakePresaleMerkleVesting.sol`
 - `contracts/WakeBeneficiaryVestingVault.sol`
 - `contracts/WakeControlledEmissionVault.sol`
-- `contracts/WakeLiquidityVault.sol`
-- `contracts/WakeCustodyVault.sol`
+- `contracts/WakeBoundEmissionVault.sol`
+- `contracts/WakeStaking.sol`
+- `contracts/WakeTimelockVault.sol`
 - deploy scripts in `scripts/deploy/`
 
 ## Out of scope
 
 - off-chain Merkle tree generation
 - Safe deployment and Safe UI operations
-- future staking / farming / reward-router contracts
+- third-party LP locker deployment / LP management execution
+- future sequencer-bond / slashing modules
 - frontend / backend integrations
-- exchange listings / LP operations
 
 ## Notes
 
-- Rewards are funded into emission vaults on-chain.
-- Separate staking contracts are planned for a later phase and are not part of this repository.
-- Reserve is computed as the remainder of total supply after all explicit allocations.
+- Staking is part of the repository and should be audited together with the staking-bound emission vault.
+- Liquidity follows an external LP-lock publication flow. The canonical deployment manifest should include the LP locker address after provisioning.
+- Reserve is a real 24-month timelock vault.
+- Token contract has no owner/admin surface.
