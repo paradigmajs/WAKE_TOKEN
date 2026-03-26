@@ -21,7 +21,7 @@
 
 ## Notes
 
-- Staking is part of the repository and should be audited together with the staking-bound emission vault.
+- Staking is part of the repository and should be audited together with the staking-bound emission vault. Current repo semantics: no retail slashing, no staking cliff, continuous emission release, immediate withdraw in config.
 - Liquidity follows an external LP-lock publication flow. The canonical deployment manifest should include the LP locker address after provisioning.
 - Reserve is a real 24-month timelock vault.
 - Token contract has no owner/admin surface.

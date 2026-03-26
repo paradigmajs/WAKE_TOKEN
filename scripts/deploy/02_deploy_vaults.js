@@ -48,7 +48,7 @@ async function main() {
 
   await deployContract(
     'WakeBoundEmissionVault',
-    [timelockAddress, tokenAddress, a.userRewards, tge, s.userRewards.cliffDuration, s.userRewards.vestingDuration, s.userRewards.initialUnlockBps, safe],
+    [timelockAddress, tokenAddress, a.userRewards, tge + s.userRewards.startOffset, s.userRewards.emissionDuration, safe],
     'userRewardsVault',
   );
 
@@ -60,7 +60,7 @@ async function main() {
 
   await deployContract(
     'WakeBoundEmissionVault',
-    [timelockAddress, tokenAddress, a.stakingEmissions, tge, s.stakingEmissions.cliffDuration, s.stakingEmissions.vestingDuration, s.stakingEmissions.initialUnlockBps, predictedStakingAddress],
+    [timelockAddress, tokenAddress, a.stakingEmissions, tge + s.stakingEmissions.startOffset, s.stakingEmissions.emissionDuration, predictedStakingAddress],
     'stakingEmissionVault',
   );
 

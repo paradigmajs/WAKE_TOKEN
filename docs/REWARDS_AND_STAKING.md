@@ -19,7 +19,7 @@ Included in v1:
 - `stake(uint256)`
 - `stakeFor(address,uint256)`
 - `requestUnstake(uint256)`
-- `withdrawUnstaked()` after a 7-day cooldown
+- `withdrawUnstaked()` with zero cooldown in the current config
 - `claimRewards()`
 - `compoundRewards()`
 - accumulator-based accounting with `accRewardPerShare`
@@ -36,18 +36,18 @@ Those modules belong to later protocol phases and can plug into `effectiveStakeO
 
 ## Emission semantics
 
-The staking bucket follows the public docs:
+The staking bucket now follows the requested retail behavior:
 
-- bucket size: `126,011,000 WAKE`
-- 0% at TGE
-- 2-month cliff
-- monthly distribution inside the published 36-month window
+- rewards start from the emission start timestamp with no staking cliff
+- emissions release continuously over time
+- APR is variable because it depends on current pool stake
+- rewards are pulled from the bound vault into staking without any arbitrary owner release
 
 Implementation detail:
 
-- no emissions are releasable during cliff
-- after cliff, emissions unlock in monthly steps across the **remaining 34 months**
-- rewards are pulled from the bound vault into staking without any arbitrary owner release
+- `WakeBoundEmissionVault` releases emissions linearly by elapsed time
+- `WakeStaking` can sync and distribute newly released rewards at any interaction point
+- users can unstake and withdraw immediately in the current deployment config
 
 ## Empty-pool semantics
 

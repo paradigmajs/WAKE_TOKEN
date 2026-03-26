@@ -69,7 +69,7 @@ describe('WakePresaleMerkleVesting', function () {
     await presale.waitForDeployment();
 
     const BoundVault = await ethers.getContractFactory('WakeBoundEmissionVault');
-    const emissionVault = await BoundVault.deploy(owner.address, await token.getAddress(), ethers.parseEther('3400'), tge, cliff, 1080 * 24 * 60 * 60, 0, owner.address);
+    const emissionVault = await BoundVault.deploy(owner.address, await token.getAddress(), ethers.parseEther('3400'), tge, 1080 * 24 * 60 * 60, owner.address);
     await emissionVault.waitForDeployment();
     await token.transfer(await emissionVault.getAddress(), ethers.parseEther('3400'));
 

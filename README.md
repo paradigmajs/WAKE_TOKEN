@@ -9,7 +9,7 @@ Audit-oriented WAKE repo aligned with the current Litepaper / Whitepaper token l
 - `WakeBeneficiaryVestingVault.sol` — beneficiary vesting vault for team / advisors
 - `WakeControlledEmissionVault.sol` — discretionary emission vault for treasury / ecosystem / marketing
 - `WakeBoundEmissionVault.sol` — controller-bound emission vault for staking / rewards
-- `WakeStaking.sol` — retail staking v1 with cooldown unstake and accumulator rewards
+- `WakeStaking.sol` — retail staking v1 with instant-withdraw config and accumulator rewards
 - `WakeTimelockVault.sol` — 24-month reserve timelock vault
 - `WakeLiquidityVault.sol` — legacy helper, no longer part of canonical mainnet path
 - `WakeCustodyVault.sol` — legacy helper, superseded by `WakeTimelockVault`
@@ -23,6 +23,7 @@ Audit-oriented WAKE repo aligned with the current Litepaper / Whitepaper token l
 5. Removed token-timelock liquidity vault from the canonical mainnet path.
 6. Synced Advisors / Strategic Reserve allocations with public docs.
 7. Prepared timelock ownership path for staking-related contracts.
+8. Removed staking cliff from the current retail pool path and switched staking emissions to continuous time-based release.
 
 ## Canonical architecture
 
@@ -75,11 +76,12 @@ This environment did not include installed npm dependencies, so the updated repo
 npx hardhat compile
 npm test```
 
-```npm run deploy:testnet:clean
-npm run deploy:testnet:token
-npm run deploy:testnet:vaults
-npm run deploy:testnet:fund
-npm run deploy:testnet:check```
+```npx hardhat run scripts/deploy/00_clean_deployment.js --network sepolia && \
+npx hardhat run scripts/deploy/01_deploy_token.js --network sepolia && \
+npx hardhat run scripts/deploy/02_deploy_vaults.js --network sepolia && \
+npx hardhat run scripts/deploy/03_fund_vaults.js --network sepolia && \
+npx hardhat run scripts/deploy/05_post_deploy_checks.js --network sepolia && \
+npx hardhat run scripts/deploy/06_verify_all.js --network sepolia```
 
 
 

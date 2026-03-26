@@ -1,18 +1,18 @@
 {
   "network": "sepolia",
   "chainId": 11155111,
-  "updatedAt": "2026-03-25T07:46:50.892Z",
+  "updatedAt": "2026-03-26T06:24:24.049Z",
   "contracts": {
     "token": {
       "name": "WAKEToken",
-      "address": "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+      "address": "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
       "args": [
         "0x84F1995827F35337A925727aCd8A25D0b54e1F52"
       ]
     },
     "timelock": {
       "name": "WakeTimelockController",
-      "address": "0xFD1E348757e215E09701B16338768fF9698882f2",
+      "address": "0x4E32D97Ffb629Be2E258C451954D8016415c6a0A",
       "args": [
         172800,
         [
@@ -26,10 +26,10 @@
     },
     "presalePrivateVault": {
       "name": "WakePresaleMerkleVesting",
-      "address": "0x29317f787a7d0133ED285b45907228265C742C0F",
+      "address": "0x173e5df6167b459D3e636949604932135a457cBD",
       "args": [
-        "0xFD1E348757e215E09701B16338768fF9698882f2",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+        "0x4E32D97Ffb629Be2E258C451954D8016415c6a0A",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
         1814400000,
         5184000,
         46656000,
@@ -38,10 +38,10 @@
     },
     "ecosystemVault": {
       "name": "WakeControlledEmissionVault",
-      "address": "0x73dE0Aa06160381616835514262135b2Dd79Cac3",
+      "address": "0x372F9347C41A148DD5369A9a41268e6C11120981",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
         "252022001000000000000000000",
         1814400000,
         7776000,
@@ -51,10 +51,10 @@
     },
     "treasuryVault": {
       "name": "WakeControlledEmissionVault",
-      "address": "0xD7bF22938E62ebE5E2C9fEAC23491d5694b95B1F",
+      "address": "0x04CdBBb993DB337b72436A7e06807c2A9B5A1F71",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
         "157513750000000000000000000",
         1814400000,
         15552000,
@@ -64,48 +64,44 @@
     },
     "userRewardsVault": {
       "name": "WakeBoundEmissionVault",
-      "address": "0x8e5caEd7AC8169C05AaD6dB58DA2FE27271b3830",
+      "address": "0xb8397693554008b27Ede6921eFD7Ed9861EC8864",
       "args": [
-        "0xFD1E348757e215E09701B16338768fF9698882f2",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+        "0x4E32D97Ffb629Be2E258C451954D8016415c6a0A",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
         "126011000000000000000000000",
         1814400000,
-        0,
         62208000,
-        0,
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e"
       ]
     },
     "stakingEmissionVault": {
       "name": "WakeBoundEmissionVault",
-      "address": "0x0FFf418185bceEAc5328E5310Ac46EdF9fea6Ba3",
+      "address": "0x8f2d504907B7B9e2aE39dCbD8c5544c9CB9807EC",
       "args": [
-        "0xFD1E348757e215E09701B16338768fF9698882f2",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+        "0x4E32D97Ffb629Be2E258C451954D8016415c6a0A",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
         "126011000000000000000000000",
         1814400000,
-        5184000,
         93312000,
-        0,
-        "0xDBd20E483BD3aF24F592E6F17A31C6d9A39733da"
+        "0x4C729ABE225b0EbB9937218fD01652cb35eaBd39"
       ]
     },
     "staking": {
       "name": "WakeStaking",
-      "address": "0xDBd20E483BD3aF24F592E6F17A31C6d9A39733da",
+      "address": "0x4C729ABE225b0EbB9937218fD01652cb35eaBd39",
       "args": [
-        "0xFD1E348757e215E09701B16338768fF9698882f2",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
-        "0x0FFf418185bceEAc5328E5310Ac46EdF9fea6Ba3",
-        604800
+        "0x4E32D97Ffb629Be2E258C451954D8016415c6a0A",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
+        "0x8f2d504907B7B9e2aE39dCbD8c5544c9CB9807EC",
+        0
       ]
     },
     "teamVault": {
       "name": "WakeBeneficiaryVestingVault",
-      "address": "0xCD49948e18cf8f0DAF6409b3c1814C949D4e63E1",
+      "address": "0x64Bb39B22474C06ef6659196C0c58E68e7dBEA78",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
         "0x52c52e02812b68401814a128454Df9254D3454dC",
         "189016500000000000000000000",
         1814400000,
@@ -116,10 +112,10 @@
     },
     "advisorsVault": {
       "name": "WakeBeneficiaryVestingVault",
-      "address": "0x0b77a7e0740e786EFAabcdDF6D301bcb9542f31f",
+      "address": "0x05539345A9B45DaEdD2D475af62934Bbce3e429a",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
         "0x45bB1590dDa06a789577A425B6e286E5d6688411",
         "47254128000000000000000000",
         1814400000,
@@ -130,10 +126,10 @@
     },
     "marketingVault": {
       "name": "WakeControlledEmissionVault",
-      "address": "0x7E425A28c0d7D3729FE6723C00a098cFC899e91e",
+      "address": "0xA0c91c35FEed42955b2BB481B15efe888efbbc31",
       "args": [
         "0x45C6f76Da0CF3fAA24628bE78e17194970b2832e",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
         "78756875000000000000000000",
         1814400000,
         0,
@@ -143,10 +139,10 @@
     },
     "reserveVault": {
       "name": "WakeTimelockVault",
-      "address": "0xed89b7965f4Bd11E059c0Fa388dB392e02cDE803",
+      "address": "0xEAE31DFD7Bd529036E287f61E8f1ea35b103f5Eb",
       "args": [
-        "0xFD1E348757e215E09701B16338768fF9698882f2",
-        "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
+        "0x4E32D97Ffb629Be2E258C451954D8016415c6a0A",
+        "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
         1876608000
       ]
     }
@@ -195,14 +191,12 @@
         "initialUnlockBps": 0
       },
       "userRewards": {
-        "cliffDuration": 0,
-        "vestingDuration": 62208000,
-        "initialUnlockBps": 0
+        "startOffset": 0,
+        "emissionDuration": 62208000
       },
       "stakingEmissions": {
-        "cliffDuration": 5184000,
-        "vestingDuration": 93312000,
-        "initialUnlockBps": 0
+        "startOffset": 0,
+        "emissionDuration": 93312000
       },
       "team": {
         "cliffDuration": 31104000,
@@ -224,10 +218,10 @@
       }
     },
     "staking": {
-      "rewardStartOffset": 5184000,
+      "rewardStartOffset": 0,
       "rewardWindow": 93312000,
-      "epochLength": 2592000,
-      "unbondingPeriod": 604800,
+      "epochLength": 86400,
+      "unbondingPeriod": 0,
       "retailSlashing": false
     },
     "timelock": {
@@ -242,91 +236,91 @@
     }
   },
   "tx": {
-    "tokenDeployTx": "0xb10ada92f578fafbfc1d817ef1687bb8cfa5af52a10117055ef1dec1fcc26e41",
-    "timelockDeployTx": "0xe27a8fa505a1ce1c06e6f25b07c6e4061f92356eeb3cd2973cbe5a3023f3fa20",
-    "presalePrivateVaultDeployTx": "0x2beb61e0505cb418ca971a41a665cea51ec187a88be859f97eedb3c00f146fd0",
-    "ecosystemVaultDeployTx": "0x1a1f1a92b1c7c82a60bf630fc5f6c9ea9e260abe374c7810856712079872523e",
-    "treasuryVaultDeployTx": "0x9c231cf4266e96300dc9fb08e2b83d1efec33cf2ad4076740f7e7830ee0d7534",
-    "userRewardsVaultDeployTx": "0x1d774e31646d25f2e6cb0c52bbf94611ec26a6e539404d34562d2b5dc43c5b00",
-    "stakingEmissionVaultDeployTx": "0x9bdb43fc43aefc341ff701bb5009d56211fa6f258ef813427ad271f34c172d23",
-    "stakingDeployTx": "0xa2296afd18ce8d5c87d2838a63b3da4d2f96e2dd85d16bcf4600a54e6f0c916f",
-    "teamVaultDeployTx": "0xe1b3957426e8fef56610752620d3d02800885272f0d7a9cfe380513599da67d6",
-    "advisorsVaultDeployTx": "0x3bb627bb0e6a30b7237cd7b4ddf5de69358a1512d3467ba3535600ed00b252c0",
-    "marketingVaultDeployTx": "0x23bacd03168096a0c44d69306964b51a9896aadf226208730b8e9b533a25b939",
-    "reserveVaultDeployTx": "0xb3385ce065f2d439aa5a5e1e528cff1adf8bb61f6816bdd961346b3633cedaa3",
-    "presalePrivateVaultFundingTx": "0x1886ef5e8b9cb7e7dc1c3684bf95b4f854b66ef0ad45c776680fd53ef5bc1665",
-    "ecosystemVaultFundingTx": "0x7b8ecfb33f74084fbf7dca5f773f336e8232e9919a073f8294c9eca7a5bb4417",
-    "treasuryVaultFundingTx": "0x97f9a60ec9f843c6571600acac44430529b2c5221157f1b64836af5ef674ce2b",
-    "userRewardsVaultFundingTx": "0x47a65253da6065ce2c5d543765fa385750a836876ed6f55249143b5b18e5c5ba",
-    "stakingEmissionVaultFundingTx": "0xdf1eb41ab3970a9ca0307e352361bff9efa5fb0c0ca80dfa5b599caec957caa5",
-    "teamVaultFundingTx": "0xb62d426c695519b4d29bbe4b07bc34be6b7f9701728228d9b5b2ea283c6c9cf4",
-    "advisorsVaultFundingTx": "0x2345139caf99928431ea566d261ea47c8fdb1822ce1eaa0f1d3461dac966021a",
-    "marketingVaultFundingTx": "0xdd547837910f3cd83f1ae5ffdfe329212475d449f238b7bad61d6c9e6aeaf3bc",
-    "reserveVaultFundingTx": "0x3d6bf7778958882b8695c182a730a38c01f8bf1ec948ff306cf7cec4f6cd92b3"
+    "tokenDeployTx": "0xa68b99d68ba96ca2821573ea4f00e0f19a3585bfe0e9c40c90dcf471db0cc422",
+    "timelockDeployTx": "0x141f744a8a1409b051618ab0db11500e9a99b062e2c784c429a1cfa49689551d",
+    "presalePrivateVaultDeployTx": "0xa2942f40db899f23380d97167ea8c44660dbb7bc0569d85f0d3c2a97445de666",
+    "ecosystemVaultDeployTx": "0xd5efa6672582f7549de5af3bdf562da3e14662d39f2f9ea3b970c523aab264b4",
+    "treasuryVaultDeployTx": "0x2269e941844b551da40d0940d4599767aa5d64b640bc0fcc1019e118a3163b50",
+    "userRewardsVaultDeployTx": "0x60caaa805d85543c4d3476490291555fc021e51d0811b85e183e2045fd21dfad",
+    "stakingEmissionVaultDeployTx": "0x8843f2b4a84643d03907b3951fdb6444fdfc0e38a7a61336c0f65d40d1ca24e8",
+    "stakingDeployTx": "0x7aa1fb4eaa311cfaeaad1661bafe758fd3558b6702ae137ecb2acc49d86ab47b",
+    "teamVaultDeployTx": "0xdd1cae0f12ee4e2dfeced95ba73eb5892cf3538b915ac8ad805193d112a39625",
+    "advisorsVaultDeployTx": "0x3292173135702881226213ce2d7c12e2b6825659087a65544178ab477be16921",
+    "marketingVaultDeployTx": "0x0d7b5e5a7000286e3a0a3ad84a8de3a6797f3d3207a5f2aff209b6bcbee2952f",
+    "reserveVaultDeployTx": "0x7247414bac883f7160e7dc890fdec276f3d543dab08582cabcf25337d8e78ac1",
+    "presalePrivateVaultFundingTx": "0xbd8a9166cb90aa33a35136760da44b1bc186f653f84f09ccd015b27eed44eeba",
+    "ecosystemVaultFundingTx": "0x6d6244d8b0f508077553def12ff203ac90cff0ba29d852891beab7cf1b0cbef6",
+    "treasuryVaultFundingTx": "0x39e38536d99f0ac741147d696ba98fbfcfad49a58482d87583779d7f668ae694",
+    "userRewardsVaultFundingTx": "0xc8587efb85e4f852b7b33b29657b349fd19984e3da21b4d77916fbe7f907ba52",
+    "stakingEmissionVaultFundingTx": "0xbc90106f819ec253fc9a44f55ccd6f3b60f312439a0149a5f6895d35a022ee0d",
+    "teamVaultFundingTx": "0xfa46ed3dfbd396aabc55366b44a36fc4a7a0d5b6e5ac0d06c544882c38e5163e",
+    "advisorsVaultFundingTx": "0x5fd2162d430c707eab6a062929681e4777cdbd61bcaabccc38908be154bacca0",
+    "marketingVaultFundingTx": "0xb79f7c897d3a54fab76c62cd64761405b231082714a591d67d68dbbfe4808f7d",
+    "reserveVaultFundingTx": "0xc5f110ee611650670ea1572f9d7e7cbec40cac9988b1c1683dbf1756e4e7c5c1"
   },
   "funded": {
     "presalePrivateVault": {
-      "to": "0x29317f787a7d0133ED285b45907228265C742C0F",
+      "to": "0x173e5df6167b459D3e636949604932135a457cBD",
       "amount": "393784376000000000000000000",
-      "txHash": "0x1886ef5e8b9cb7e7dc1c3684bf95b4f854b66ef0ad45c776680fd53ef5bc1665"
+      "txHash": "0xbd8a9166cb90aa33a35136760da44b1bc186f653f84f09ccd015b27eed44eeba"
     },
     "ecosystemVault": {
-      "to": "0x73dE0Aa06160381616835514262135b2Dd79Cac3",
+      "to": "0x372F9347C41A148DD5369A9a41268e6C11120981",
       "amount": "252022001000000000000000000",
-      "txHash": "0x7b8ecfb33f74084fbf7dca5f773f336e8232e9919a073f8294c9eca7a5bb4417"
+      "txHash": "0x6d6244d8b0f508077553def12ff203ac90cff0ba29d852891beab7cf1b0cbef6"
     },
     "treasuryVault": {
-      "to": "0xD7bF22938E62ebE5E2C9fEAC23491d5694b95B1F",
+      "to": "0x04CdBBb993DB337b72436A7e06807c2A9B5A1F71",
       "amount": "157513750000000000000000000",
-      "txHash": "0x97f9a60ec9f843c6571600acac44430529b2c5221157f1b64836af5ef674ce2b"
+      "txHash": "0x39e38536d99f0ac741147d696ba98fbfcfad49a58482d87583779d7f668ae694"
     },
     "userRewardsVault": {
-      "to": "0x8e5caEd7AC8169C05AaD6dB58DA2FE27271b3830",
+      "to": "0xb8397693554008b27Ede6921eFD7Ed9861EC8864",
       "amount": "126011000000000000000000000",
-      "txHash": "0x47a65253da6065ce2c5d543765fa385750a836876ed6f55249143b5b18e5c5ba"
+      "txHash": "0xc8587efb85e4f852b7b33b29657b349fd19984e3da21b4d77916fbe7f907ba52"
     },
     "stakingEmissionVault": {
-      "to": "0x0FFf418185bceEAc5328E5310Ac46EdF9fea6Ba3",
+      "to": "0x8f2d504907B7B9e2aE39dCbD8c5544c9CB9807EC",
       "amount": "126011000000000000000000000",
-      "txHash": "0xdf1eb41ab3970a9ca0307e352361bff9efa5fb0c0ca80dfa5b599caec957caa5"
+      "txHash": "0xbc90106f819ec253fc9a44f55ccd6f3b60f312439a0149a5f6895d35a022ee0d"
     },
     "teamVault": {
-      "to": "0xCD49948e18cf8f0DAF6409b3c1814C949D4e63E1",
+      "to": "0x64Bb39B22474C06ef6659196C0c58E68e7dBEA78",
       "amount": "189016500000000000000000000",
-      "txHash": "0xb62d426c695519b4d29bbe4b07bc34be6b7f9701728228d9b5b2ea283c6c9cf4"
+      "txHash": "0xfa46ed3dfbd396aabc55366b44a36fc4a7a0d5b6e5ac0d06c544882c38e5163e"
     },
     "advisorsVault": {
-      "to": "0x0b77a7e0740e786EFAabcdDF6D301bcb9542f31f",
+      "to": "0x05539345A9B45DaEdD2D475af62934Bbce3e429a",
       "amount": "47254128000000000000000000",
-      "txHash": "0x2345139caf99928431ea566d261ea47c8fdb1822ce1eaa0f1d3461dac966021a"
+      "txHash": "0x5fd2162d430c707eab6a062929681e4777cdbd61bcaabccc38908be154bacca0"
     },
     "marketingVault": {
-      "to": "0x7E425A28c0d7D3729FE6723C00a098cFC899e91e",
+      "to": "0xA0c91c35FEed42955b2BB481B15efe888efbbc31",
       "amount": "78756875000000000000000000",
-      "txHash": "0xdd547837910f3cd83f1ae5ffdfe329212475d449f238b7bad61d6c9e6aeaf3bc"
+      "txHash": "0xb79f7c897d3a54fab76c62cd64761405b231082714a591d67d68dbbfe4808f7d"
     },
     "reserveVault": {
-      "to": "0xed89b7965f4Bd11E059c0Fa388dB392e02cDE803",
+      "to": "0xEAE31DFD7Bd529036E287f61E8f1ea35b103f5Eb",
       "amount": "47254125000000000000000000",
-      "txHash": "0x3d6bf7778958882b8695c182a730a38c01f8bf1ec948ff306cf7cec4f6cd92b3"
+      "txHash": "0xc5f110ee611650670ea1572f9d7e7cbec40cac9988b1c1683dbf1756e4e7c5c1"
     }
   },
   "meta": {
     "deployer": "0x84F1995827F35337A925727aCd8A25D0b54e1F52",
-    "deployerBalanceBefore": "46490551879688722",
+    "deployerBalanceBefore": "46474958227579336",
     "tokenAdminSurface": "none",
     "tokenInitialHolder": "0x84F1995827F35337A925727aCd8A25D0b54e1F52",
-    "predictedStakingAddress": "0xDBd20E483BD3aF24F592E6F17A31C6d9A39733da",
+    "predictedStakingAddress": "0x4C729ABE225b0EbB9937218fD01652cb35eaBd39",
     "liquidityBucketHolder": "0x84F1995827F35337A925727aCd8A25D0b54e1F52",
     "liquidityBucketAmount": "157513750000000000000000000"
   },
   "checks": {
-    "executedAt": "2026-03-25T07:46:50.891Z",
+    "executedAt": "2026-03-26T06:24:24.048Z",
     "network": "sepolia",
     "ok": true,
     "holderBalance": "157513750000000000000000000",
     "fundedTotal": "1417623755000000000000000000",
-    "stakingController": "0xDBd20E483BD3aF24F592E6F17A31C6d9A39733da",
+    "stakingController": "0x4C729ABE225b0EbB9937218fD01652cb35eaBd39",
     "reserveUnlockTimestamp": 1876608000,
     "liquidityMode": "external-lp-lock",
     "lpLockRequired": true,
@@ -334,26 +328,26 @@
     "lpProvisionReceiver": null
   },
   "manifest": {
-    "token": "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
-    "timelock": "0xFD1E348757e215E09701B16338768fF9698882f2",
+    "token": "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
+    "timelock": "0x4E32D97Ffb629Be2E258C451954D8016415c6a0A",
     "tgeTimestamp": 1814400000,
     "liquidityBucketHolder": "0x84F1995827F35337A925727aCd8A25D0b54e1F52",
     "liquidityBucketAmount": "157513750000000000000000000",
     "lpLockRequired": true,
     "lpLockerAddress": null,
     "contracts": {
-      "token": "0x085Ba30485304F74cbD7A9a16C0227f34E2327C9",
-      "timelock": "0xFD1E348757e215E09701B16338768fF9698882f2",
-      "presalePrivateVault": "0x29317f787a7d0133ED285b45907228265C742C0F",
-      "ecosystemVault": "0x73dE0Aa06160381616835514262135b2Dd79Cac3",
-      "treasuryVault": "0xD7bF22938E62ebE5E2C9fEAC23491d5694b95B1F",
-      "userRewardsVault": "0x8e5caEd7AC8169C05AaD6dB58DA2FE27271b3830",
-      "stakingEmissionVault": "0x0FFf418185bceEAc5328E5310Ac46EdF9fea6Ba3",
-      "staking": "0xDBd20E483BD3aF24F592E6F17A31C6d9A39733da",
-      "teamVault": "0xCD49948e18cf8f0DAF6409b3c1814C949D4e63E1",
-      "advisorsVault": "0x0b77a7e0740e786EFAabcdDF6D301bcb9542f31f",
-      "marketingVault": "0x7E425A28c0d7D3729FE6723C00a098cFC899e91e",
-      "reserveVault": "0xed89b7965f4Bd11E059c0Fa388dB392e02cDE803"
+      "token": "0x6CfBd6781FaDE160EBDcaB37638b169602e895b1",
+      "timelock": "0x4E32D97Ffb629Be2E258C451954D8016415c6a0A",
+      "presalePrivateVault": "0x173e5df6167b459D3e636949604932135a457cBD",
+      "ecosystemVault": "0x372F9347C41A148DD5369A9a41268e6C11120981",
+      "treasuryVault": "0x04CdBBb993DB337b72436A7e06807c2A9B5A1F71",
+      "userRewardsVault": "0xb8397693554008b27Ede6921eFD7Ed9861EC8864",
+      "stakingEmissionVault": "0x8f2d504907B7B9e2aE39dCbD8c5544c9CB9807EC",
+      "staking": "0x4C729ABE225b0EbB9937218fD01652cb35eaBd39",
+      "teamVault": "0x64Bb39B22474C06ef6659196C0c58E68e7dBEA78",
+      "advisorsVault": "0x05539345A9B45DaEdD2D475af62934Bbce3e429a",
+      "marketingVault": "0xA0c91c35FEed42955b2BB481B15efe888efbbc31",
+      "reserveVault": "0xEAE31DFD7Bd529036E287f61E8f1ea35b103f5Eb"
     }
   }
 }

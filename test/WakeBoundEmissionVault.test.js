@@ -10,31 +10,58 @@ describe('WakeBoundEmissionVault', function () {
     await token.waitForDeployment();
 
     const latest = await time.latest();
-    const tge = latest + 10;
+    const start = latest + 10;
     const totalAllocation = ethers.parseEther('3400');
-    const cliff = 60 * 24 * 60 * 60;
-    const vesting = 1080 * 24 * 60 * 60;
+    const duration = 1080 * 24 * 60 * 60;
 
     const Vault = await ethers.getContractFactory('WakeBoundEmissionVault');
-    const vault = await Vault.deploy(owner.address, await token.getAddress(), totalAllocation, tge, cliff, vesting, 0, controller.address);
+    const vault = await Vault.deploy(
+      owner.address,
+      await token.getAddress(),
+      totalAllocation,
+      start,
+      duration,
+      controller.address
+    );
     await vault.waitForDeployment();
     await token.transfer(await vault.getAddress(), totalAllocation);
 
-    return { token, vault, controller, outsider, tge, cliff, totalAllocation, vesting };
+    return { token, vault, controller, outsider, start, totalAllocation, duration };
   }
 
   it('only controller can pull emissions', async function () {
-    const { vault, outsider, tge, cliff } = await loadFixture(deployFixture);
-    await time.increaseTo(tge + cliff);
-    await expect(vault.connect(outsider).releaseAvailable()).to.be.revertedWithCustomError(vault, 'NotController');
+    const { vault, outsider, start } = await loadFixture(deployFixture);
+    await time.increaseTo(start + 1);
+    await expect(vault.connect(outsider).releaseAvailable()).to.be.revertedWithCustomError(
+      vault,
+      'NotController'
+    );
   });
 
-  it('releases vested emissions directly to controller', async function () {
-    const { token, vault, controller, tge, cliff, totalAllocation, vesting } = await loadFixture(deployFixture);
-    const postCliffMonths = BigInt((vesting - cliff) / (30 * 24 * 60 * 60));
-    const firstMonth = totalAllocation / postCliffMonths;
+  it('releases time-based emissions directly to controller', async function () {
+    const { token, vault, controller, start } = await loadFixture(deployFixture);
 
-    await time.increaseTo(tge + cliff);
-    await expect(vault.connect(controller).releaseAvailable()).to.changeTokenBalances(token, [vault, controller], [-firstMonth, firstMonth]);
+    await time.increaseTo(start + 86400);
+
+    const vaultBalanceBefore = await token.balanceOf(await vault.getAddress());
+    const controllerBalanceBefore = await token.balanceOf(controller.address);
+
+    const tx = await vault.connect(controller).releaseAvailable();
+    const receipt = await tx.wait();
+    const block = await ethers.provider.getBlock(receipt.blockNumber);
+
+    const released = await vault.released();
+
+    const vaultBalanceAfter = await token.balanceOf(await vault.getAddress());
+    const controllerBalanceAfter = await token.balanceOf(controller.address);
+
+    expect(controllerBalanceAfter - controllerBalanceBefore).to.equal(released);
+    expect(vaultBalanceBefore - vaultBalanceAfter).to.equal(released);
+
+    const expectedReleased =
+      (BigInt(block.timestamp - start) * ethers.parseEther('3400')) /
+      BigInt(1080 * 24 * 60 * 60);
+
+    expect(released).to.equal(expectedReleased);
   });
 });

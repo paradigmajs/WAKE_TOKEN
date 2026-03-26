@@ -71,14 +71,12 @@ const testnetConfig = {
       initialUnlockBps: 0,
     },
     userRewards: {
-      cliffDuration: 0,
-      vestingDuration: days(720),
-      initialUnlockBps: 0,
+      startOffset: 0,
+      emissionDuration: days(720),
     },
     stakingEmissions: {
-      cliffDuration: days(60),
-      vestingDuration: days(1080),
-      initialUnlockBps: 0,
+      startOffset: 0,
+      emissionDuration: days(1080),
     },
     team: {
       cliffDuration: days(360),
@@ -100,10 +98,10 @@ const testnetConfig = {
     },
   },
   staking: {
-    rewardStartOffset: days(60),
+    rewardStartOffset: 0,
     rewardWindow: days(1080),
-    epochLength: days(30),
-    unbondingPeriod: days(7),
+    epochLength: days(1),
+    unbondingPeriod: 0,
     retailSlashing: false,
   },
   liquidity: {

@@ -40,3 +40,11 @@ The repository is aligned to the public Litepaper / Whitepaper split:
 ## Token admin surface
 
 `WAKEToken.sol` has no owner role and no mint extensions.
+
+
+## Current staking runtime configuration
+
+- staking emission start offset: `0`
+- staking emission duration: `1080 days`
+- staking unbonding period: `0`
+- reward accrual: continuous time-based release, variable APR
