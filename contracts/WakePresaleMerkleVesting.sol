@@ -18,12 +18,14 @@ contract WakePresaleMerkleVesting is Ownable {
     error NothingToClaim();
     error InvalidSchedule();
     error InvalidStakingAddress();
+    error UnapprovedStakingAddress();
 
     IERC20 public immutable token;
     uint64 public immutable tgeTimestamp;
     uint64 public immutable cliffDuration;
     uint64 public immutable vestingDuration;
     uint16 public immutable initialUnlockBps;
+    address public immutable stakingContract;
 
     bytes32 public merkleRoot;
     bool public rootIsFrozen;
@@ -41,15 +43,17 @@ contract WakePresaleMerkleVesting is Ownable {
         uint64 tgeTimestamp_,
         uint64 cliffDuration_,
         uint64 vestingDuration_,
-        uint16 initialUnlockBps_
+        uint16 initialUnlockBps_,
+        address stakingContract_
     ) Ownable(owner_) {
-        if (owner_ == address(0) || address(token_) == address(0)) revert InvalidAddress();
+        if (owner_ == address(0) || address(token_) == address(0) || stakingContract_ == address(0)) revert InvalidAddress();
         if (initialUnlockBps_ > 10_000 || cliffDuration_ > vestingDuration_) revert InvalidSchedule();
         token = token_;
         tgeTimestamp = tgeTimestamp_;
         cliffDuration = cliffDuration_;
         vestingDuration = vestingDuration_;
         initialUnlockBps = initialUnlockBps_;
+        stakingContract = stakingContract_;
     }
 
     function setMerkleRoot(bytes32 newRoot) external onlyOwner {
@@ -97,10 +101,12 @@ contract WakePresaleMerkleVesting is Ownable {
 
     function claimAndStake(address staking, uint256 totalAllocation, bytes32[] calldata proof) external returns (uint256 amount) {
         if (staking == address(0)) revert InvalidStakingAddress();
+        if (staking != stakingContract) revert UnapprovedStakingAddress();
         amount = _claim(msg.sender, address(this), totalAllocation, proof);
         token.forceApprove(staking, 0);
         token.forceApprove(staking, amount);
         IWakeStaking(staking).stakeFor(msg.sender, amount);
+        token.forceApprove(staking, 0);
         emit ClaimedAndStaked(msg.sender, staking, totalAllocation, amount);
     }
 

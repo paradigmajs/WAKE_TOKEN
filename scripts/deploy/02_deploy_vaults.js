@@ -28,9 +28,23 @@ async function main() {
 
   const timelockAddress = requireContract(readDeployment(), 'timelock');
 
+  const [deployer] = await ethers.getSigners();
+  const deployerAddress = await deployer.getAddress();
+  const currentNonce = await ethers.provider.getTransactionCount(deployerAddress);
+  const predictedStakingAddress = ethers.getCreateAddress({ from: deployerAddress, nonce: currentNonce + 5 });
+  saveMeta('predictedStakingAddress', predictedStakingAddress);
+
   await deployContract(
     'WakePresaleMerkleVesting',
-    [timelockAddress, tokenAddress, tge, s.presalePrivate.cliffDuration, s.presalePrivate.vestingDuration, s.presalePrivate.initialUnlockBps],
+    [
+      timelockAddress,
+      tokenAddress,
+      tge,
+      s.presalePrivate.cliffDuration,
+      s.presalePrivate.vestingDuration,
+      s.presalePrivate.initialUnlockBps,
+      predictedStakingAddress,
+    ],
     'presalePrivateVault',
   );
 
@@ -51,12 +65,6 @@ async function main() {
     [timelockAddress, tokenAddress, a.userRewards, tge + s.userRewards.startOffset, s.userRewards.emissionDuration, safe],
     'userRewardsVault',
   );
-
-  const [deployer] = await ethers.getSigners();
-  const deployerAddress = await deployer.getAddress();
-  const currentNonce = await ethers.provider.getTransactionCount(deployerAddress);
-  const predictedStakingAddress = ethers.getCreateAddress({ from: deployerAddress, nonce: currentNonce + 1 });
-  saveMeta('predictedStakingAddress', predictedStakingAddress);
 
   await deployContract(
     'WakeBoundEmissionVault',

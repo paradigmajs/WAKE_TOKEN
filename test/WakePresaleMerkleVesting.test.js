@@ -64,10 +64,6 @@ describe('WakePresaleMerkleVesting', function () {
     const vesting = 540 * 24 * 60 * 60;
     const initialUnlockBps = 800;
 
-    const Presale = await ethers.getContractFactory('WakePresaleMerkleVesting');
-    const presale = await Presale.deploy(owner.address, await token.getAddress(), tge, cliff, vesting, initialUnlockBps);
-    await presale.waitForDeployment();
-
     const BoundVault = await ethers.getContractFactory('WakeBoundEmissionVault');
     const emissionVault = await BoundVault.deploy(owner.address, await token.getAddress(), ethers.parseEther('3400'), tge, 1080 * 24 * 60 * 60, owner.address);
     await emissionVault.waitForDeployment();
@@ -77,6 +73,10 @@ describe('WakePresaleMerkleVesting', function () {
     const staking = await Staking.deploy(owner.address, await token.getAddress(), await emissionVault.getAddress(), 7 * 24 * 60 * 60);
     await staking.waitForDeployment();
     await emissionVault.setController(await staking.getAddress());
+
+    const Presale = await ethers.getContractFactory('WakePresaleMerkleVesting');
+    const presale = await Presale.deploy(owner.address, await token.getAddress(), tge, cliff, vesting, initialUnlockBps, await staking.getAddress());
+    await presale.waitForDeployment();
 
     const aliceAllocation = ethers.parseEther('1000');
     const bobAllocation = ethers.parseEther('2000');
@@ -154,6 +154,16 @@ describe('WakePresaleMerkleVesting', function () {
     await time.increaseTo(tge + cliff + 30 * 24 * 60 * 60);
     const secondStepTotal = (remaining * 2n) / postCliffMonths;
     expect(await presale.claimable(bob.address, bobAllocation, bobProof)).to.equal(secondStepTotal);
+  });
+
+
+  it('rejects unapproved staking target in claimAndStake', async function () {
+    const { presale, alice, tge, aliceAllocation, aliceProof } = await loadFixture(deployFixture);
+
+    await time.increaseTo(tge);
+    await expect(
+      presale.connect(alice).claimAndStake(alice.address, aliceAllocation, aliceProof),
+    ).to.be.revertedWithCustomError(presale, 'UnapprovedStakingAddress');
   });
 
   it('supports claimAndStake without routing tokens through the user wallet', async function () {
